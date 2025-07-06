@@ -1,7 +1,6 @@
 package praktikum;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 import static org.junit.Assert.*;
 
 public class BurgerTest {
@@ -53,5 +52,31 @@ public class BurgerTest {
         burger.addIngredient(new Ingredient(IngredientType.FILLING, "cutlet", 2.0f));
         // 2 булки + 1 + 2 = 2*2 + 1 + 2 = 7.0
         assertEquals(7.0f, burger.getPrice(), 0.01f);
+    }
+
+    @Test
+    public void testGetReceiptWithBunAndIngredients() {
+        Bun bun = new Bun("Белый", 2.5f);
+        Burger burger = new Burger();
+        burger.setBuns(bun);
+        burger.addIngredient(new Ingredient(IngredientType.SAUCE, "ketchup", 1.0f));
+        burger.addIngredient(new Ingredient(IngredientType.FILLING, "cutlet", 2.0f));
+        String receipt = burger.getReceipt();
+
+        assertTrue(receipt.contains("Белый"));
+        assertTrue(receipt.contains("ketchup"));
+        assertTrue(receipt.contains("cutlet"));
+        assertTrue(receipt.contains("Price:"));
+    }
+
+    @Test
+    public void testGetReceiptWithBunOnly() {
+        Bun bun = new Bun("Ржаной", 3.0f);
+        Burger burger = new Burger();
+        burger.setBuns(bun);
+        String receipt = burger.getReceipt();
+
+        assertTrue(receipt.contains("Ржаной"));
+        assertTrue(receipt.contains("Price:"));
     }
 }
